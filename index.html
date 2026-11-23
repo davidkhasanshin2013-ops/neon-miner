@@ -1,4 +1,161 @@
 <!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:#05060a;color:#fff;padding-bottom:80px}
+header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;font-weight:bold}
+h1{font-size:18px;color:#00f0ff}
+.sb{background:#1f2333;color:#ffd700;padding:4px 10px;border-radius:10px;border:1px solid #ffd700;font-size:14px}
+.c{max-width:420px;margin:0 auto;padding:0 16px}
+.card{background:#121521;border-radius:16px;padding:15px;margin-bottom:12px}
+.btn{display:block;text-align:center;width:100%;padding:13px;border-radius:12px;border:none;font-weight:bold;font-size:14px;margin-bottom:8px;cursor:pointer}
+.p{background:#ff0055;color:#fff}.s{background:#1f2333;color:#fff;border:1px solid #333}.g{background:#00ff66;color:#000}
+.fc{width:180px;height:180px;margin:15px auto;position:relative;display:flex;justify-content:center;align-items:center;pointer-events:none}
+.fb{width:90%;height:90%;border-radius:50%;background:repeating-conic-gradient(#ff0055 0 30deg,#7000ff 30deg 60deg);animation:sp 1s linear infinite paused}
+.fn{position:absolute;width:52px;height:52px;background:#05060a;border-radius:50%;border:3px solid #ff0055;display:flex;justify-content:center;align-items:center;font-size:22px}
+@keyframes sp{100%{transform:rotate(360deg)}}
+.row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #1f2333}
+.row:last-child{border-bottom:none}
+.bb{background:#ff0055;color:#fff;border:none;padding:7px 10px;border-radius:8px;font-weight:bold;font-size:12px;margin-left:4px;cursor:pointer}
+.tb{background:#00f0ff;color:#000}
+
+/* Навигация на чистом CSS — работает даже без JS */
+input.tab-radio{display:none}
+.screen{display:none}
+#tab1:checked ~ .c #s1{display:block}
+#tab2:checked ~ .c #s2{display:block}
+#tab3:checked ~ .c #s3{display:block}
+#tab4:checked ~ .c #s4{display:block}
+#tab5:checked ~ .c #s5{display:block}
+
+nav{position:fixed;bottom:0;left:0;right:0;height:65px;background:#0a0c14;display:flex;border-top:1px solid #222;z-index:9999}
+nav label{flex:1;color:#7b839a;font-size:10px;font-weight:bold;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;user-select:none}
+#tab1:checked ~ nav label[for="tab1"],
+#tab2:checked ~ nav label[for="tab2"],
+#tab3:checked ~ nav label[for="tab3"],
+#tab4:checked ~ nav label[for="tab4"],
+#tab5:checked ~ nav label[for="tab5"]{color:#00f0ff}
+
+/* Переключение Фермы / Скины на чистом CSS */
+#sub-farms:checked ~ #lf{display:block}
+#sub-farms:checked ~ #ls{display:none}
+#sub-skins:checked ~ #lf{display:none}
+#sub-skins:checked ~ #ls{display:block}
+#sub-farms:checked ~ .sub-tabs label[for="sub-farms"],
+#sub-skins:checked ~ .sub-tabs label[for="sub-skins"]{background:#ff0055;color:#fff;border:none}
+
+#t{position:fixed;top:15px;left:50%;transform:translateX(-50%);background:#00f0ff;color:#000;padding:10px 18px;border-radius:10px;font-weight:bold;display:none;z-index:99999;text-align:center;max-width:90%}
+</style>
+</head>
+<body>
+
+<input type="radio" name="main-tabs" id="tab1" class="tab-radio" checked>
+<input type="radio" name="main-tabs" id="tab2" class="tab-radio">
+<input type="radio" name="main-tabs" id="tab3" class="tab-radio">
+<input type="radio" name="main-tabs" id="tab4" class="tab-radio">
+<input type="radio" name="main-tabs" id="tab5" class="tab-radio">
+
+<div id="t"></div>
+<header><h1>NEON OS</h1><div class="sb" id="su">0 ⭐</div></header>
+
+<div class="c">
+    <div id="s1" class="screen">
+        <div class="card">
+            <div style="font-size:11px;color:#7b839a">БАЛАНС TON</div>
+            <div id="wu" style="font-size:28px;font-weight:bold;margin:6px 0 12px">0.000000 TON</div>
+            <label for="tab5" class="btn p">Магазин ферм</label>
+            <button type="button" id="btn-wd" class="btn s">Вывести TON</button>
+        </div>
+        <div class="fc"><div class="fb" id="fan"></div><div class="fn" id="fc">⚡</div></div>
+        <div style="text-align:center">
+            <div id="mu" style="font-size:26px;font-weight:bold">0.000000 TON</div>
+            <div id="st" style="color:#00f0ff;font-size:12px;font-weight:bold">ОЖИДАНИЕ ПОКУПКИ ФЕРМЫ</div>
+        </div>
+    </div>
+
+    <div id="s2" class="screen">
+        <div class="card">
+            <div class="row"><span>Доход/день</span><b id="dy">0.00 TON</b></div>
+            <div class="row"><span>Доход/сек</span><b id="ic">0.000000 TON</b></div>
+        </div>
+    </div>
+
+    <div id="s3" class="screen">
+        <div class="card">🎁 <b>+0.5 TON за активного друга</b><br><small style="color:#7b839a">Начисляется после покупки фермы другом</small></div>
+        <button type="button" id="btn-ref" class="btn p">✈️ Пригласить друга</button>
+    </div>
+
+    <div id="s4" class="screen">
+        <div class="card"><div class="row"><span>Активных миссий пока нет</span></div></div>
+    </div>
+
+    <div id="s5" class="screen">
+        <input type="radio" name="shop-tabs" id="sub-farms" class="tab-radio" checked>
+        <input type="radio" name="shop-tabs" id="sub-skins" class="tab-radio">
+        <div class="sub-tabs" style="display:flex;gap:8px;margin-bottom:10px">
+            <label for="sub-farms" class="btn s">Фермы</label>
+            <label for="sub-skins" class="btn s">Скины</label>
+        </div>
+        <div id="lf" class="card">
+            <div class="row"><div><b>Плата</b><br><small>+0.20 TON/день (20%)</small></div><div><button type="button" class="bb buy-farm" data-idx="0" data-price="15" data-day="0.2" data-cur="s" id="f0">15⭐</button><button type="button" class="bb tb buy-farm" data-idx="0" data-price="1" data-day="0.2" data-cur="t">1 TON</button></div></div>
+            <div class="row"><div><b>Сервер</b><br><small>+1.00 TON/день (20%)</small></div><div><button type="button" class="bb buy-farm" data-idx="1" data-price="150" data-day="1" data-cur="s" id="f1">150⭐</button><button type="button" class="bb tb buy-farm" data-idx="1" data-price="5" data-day="1" data-cur="t">5 TON</button></div></div>
+            <div class="row"><div><b>Стойка</b><br><small>+3.00 TON/день (20%)</small></div><div><button type="button" class="bb buy-farm" data-idx="2" data-price="400" data-day="3" data-cur="s" id="f2">400⭐</button><button type="button" class="bb tb buy-farm" data-idx="2" data-price="15" data-day="3" data-cur="t">15 TON</button></div></div>
+            <div class="row"><div><b>Кластер</b><br><small>+10.00 TON/день (20%)</small></div><div><button type="button" class="bb buy-farm" data-idx="3" data-price="1000" data-day="10" data-cur="s" id="f3">1000⭐</button><button type="button" class="bb tb buy-farm" data-idx="3" data-price="50" data-day="10" data-cur="t">50 TON</button></div></div>
+            <div class="row"><div><b>GPU-Ферма</b><br><small>+30.00 TON/день (20%)</small></div><div><button type="button" class="bb buy-farm" data-idx="4" data-price="2500" data-day="30" data-cur="s" id="f4">2500⭐</button><button type="button" class="bb tb buy-farm" data-idx="4" data-price="150" data-day="30" data-cur="t">150 TON</button></div></div>
+        </div>
+        <div id="ls" class="card">
+            <div class="row"><div><b>Золото</b></div><div><button type="button" class="bb buy-skin" data-idx="0" data-price="100" data-c1="#ffd700" data-c2="#ff8c00" data-cur="s" id="sk0">100⭐</button><button type="button" class="bb tb buy-skin" data-idx="0" data-price="2" data-c1="#ffd700" data-c2="#ff8c00" data-cur="t">2 TON</button></div></div>
+            <div class="row"><div><b>Токсик</b></div><div><button type="button" class="bb buy-skin" data-idx="1" data-price="100" data-c1="#00ff66" data-c2="#0088ff" data-cur="s" id="sk1">100⭐</button><button type="button" class="bb tb buy-skin" data-idx="1" data-price="2" data-c1="#00ff66" data-c2="#0088ff" data-cur="t">2 TON</button></div></div>
+            <div class="row"><div><b>Рубин</b></div><div><button type="button" class="bb buy-skin" data-idx="2" data-price="100" data-c1="#ff0000" data-c2="#880000" data-cur="s" id="sk2">100⭐</button><button type="button" class="bb tb buy-skin" data-idx="2" data-price="2" data-c1="#ff0000" data-c2="#880000" data-cur="t">2 TON</button></div></div>
+        </div>
+    </div>
+</div>
+
+<nav>
+    <label for="tab1"><span style="font-size:20px">🌀</span>Майнинг</label>
+    <label for="tab2"><span style="font-size:20px">⚡</span>Серверы</label>
+    <label for="tab3"><span style="font-size:20px">👥</span>Друзья</label>
+    <label for="tab4"><span style="font-size:20px">🎯</span>Миссии</label>
+    <label for="tab5"><span style="font-size:20px">🛒</span>Магазин</label>
+</nav>
+
+<script>
+(function() {
+    function getTg() {
+        return (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
+    }
+
+    function loadData() {
+        try {
+            var saved = localStorage.getItem('neon_os_v2');
+            if (saved) return JSON.parse(saved);
+        } catch (e) {}
+        return { b: 0, st: 0, day: 0, farms: [], skins: [], activeSkin: null, last: Date.now() };
+    }
+
+    var data = loadData();
+
+    function save() {
+        data.last = Date.now();
+        try { localStorage.setItem('neon_os_v2', JSON.stringify(data)); } catch (e) {}
+    }
+
+    function up() {
+        document.getElementById('wu').textContent = data.b.toFixed(6) + ' TON';
+        document.getElementById('mu').textContent = data.b.toFixed(6) + ' TON';
+        document.getElementById('su').textContent = data.st + ' ⭐';
+        document.getElementById('dy').textContent = data.day.toFixed(2) + ' TON';
+        document.getElementById('ic').textContent = (data.day / 86400).toFixed(6) + ' TON';
+    }
+
+    function msg(x) {
+        var t = document.getElementById('t');
+        t.textContent = x;
+        t.style.display = 'block';
+        <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -95,4 +252,21 @@ function wd(){b>=25?(msg('Заявка на '+b.toFixed(2)+' TON отправл�
 </script>
 </body>
                                                                                       </html>
-                                                                                      
+                                                                                      <!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#05060a;color:#fff;padding-bottom:80px}
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-weight:bold}
+h1{font-size:16px;color:#00f0ff}
+.sb{background:#1f2333;color:#ffd700;padding:4px 10px;border-radius:10px;border:1px solid #ffd700;font-size:13px}
+.c{max-width:420px;margin:0 auto;padding:0 16px}
+.card{background:#121521;border-radius:16px;padding:14px;margin-bottom:12px}
+.btn{width:100%;padding:12px;border-radius:12px;border:none;font-weight:bold;font-size:14px;margin-bottom:8px;cursor:pointer}
+.p{background:#ff0055;color:#fff}.s{background:#1f2333;color:#fff;border:1px solid #333}.g{background:#00ff66;color:#000}
+.sim-bar{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.sim-btn{flex:1;padding:7px 4px;border-radius:8px;border:1px solid #333;background:#1a1e2e;color:#00f0ff;font-size:11px;font-weight:bold;cursor:pointer}
+.sim-btn.act{backgroun
