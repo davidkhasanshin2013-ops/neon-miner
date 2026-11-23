@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#05060a;color:#fff;padding-bottom:80px}
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-weight:bold}
+h1{font-size:16px;color:#00f0ff}
+.sb{background:#1f2333;color:#ffd700;padding:4px 10px;border-radius:10px;border:1px solid #ffd700;font-size:13px}
+.c{max-width:420px;margin:0 auto;padding:0 16px}
+.card{background:#121521;border-radius:16px;padding:14px;margin-bottom:12px}
+.btn{width:100%;padding:12px;border-radius:12px;border:none;font-weight:bold;font-size:14px;margin-bottom:8px;cursor:pointer}
+.p{background:#ff0055;color:#fff}.s{background:#1f2333;color:#fff;border:1px solid #333}.g{background:#00ff66;color:#000}
+.sim-bar{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.sim-btn{flex:1;padding:7px 4px;border-radius:8px;border:1px solid #333;background:#1a1e2e;color:#00f0ff;font-size:11px;font-weight:bold;cursor:pointer}
+.sim-btn.act{background:#00f0ff;color:#000}
+.fc{width:170px;height:170px;margin:12px auto;position:relative;display:flex;justify-content:center;align-items:center}
+.fb{width:90%;height:90%;border-radius:50%;background:repeating-conic-gradient(#ff0055 0 30deg,#7000ff 30deg 60deg);animation:sp 1s linear infinite paused}
+.fn{position:absolute;width:50px;height:50px;background:#05060a;border-radius:50%;border:3px solid #ff0055;display:flex;justify-content:center;align-items:center;font-size:20px}
+@keyframes sp{100%{transform:rotate(360deg)}}
+.row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #1f2333}
+.bb{background:#ff0055;color:#fff;border:none;padding:7px 10px;border-radius:8px;font-weight:bold;font-size:12px;margin-left:4px;cursor:pointer}
+.tb{background:#00f0ff;color:#000}
+nav{position:fixed;bottom:0;left:0;right:0;height:65px;background:#0a0c14;display:flex;border-top:1px solid #222;z-index:999}
+nav button{flex:1;background:none;border:none;color:#7b839a;font-size:10px;font-weight:bold;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer}
+nav button.on{color:#00f0ff}
+#t{position:fixed;top:15px;left:50%;transform:translateX(-50%);background:#00f0ff;color:#000;padding:10px 18px;border-radius:10px;font-weight:bold;display:none;z-index:9999}
+</style>
+</head>
+<body>
+<div id="t"></div>
+<header><h1>NEON SIMULATOR</h1><div class="sb" id="su">200 ⭐</div></header>
+<div class="c">
+<div id="s1">
+<!-- Панель симулятора -->
+<div class="sim-bar">
+<button class="sim-btn act" id="x1" onclick="spd(1,this)">1x</button>
+<button class="sim-btn" id="x100" onclick="spd(100,this)">100x</button>
+<button class="sim-btn" id="x10000" onclick="spd(10000,this)">10000x</button>
+<button class="sim-btn" onclick="b+=10;up();msg('+10 TON (Тест)')">+10 TON</button>
+<button class="sim-btn" onclick="st+=500;up();msg('+500 ⭐ (Тест)')">+500 ⭐</button>
+</div>
+
+<div class="card">
+<div style="font-size:11px;color:#7b839a">БАЛАНС TON</div>
+<div id="wu" style="font-size:28px;font-weight:bold;margin:6px 0 12px">0.000000 TON</div>
+<button class="btn p" onclick="go('s5')">Магазин ферм</button>
+<button class="btn s" onclick="wd()">Вывести TON (от 25)</button>
+</div>
+
+<div class="fc"><div class="fb" id="fan"></div><div class="fn" id="fc">⚡</div></div>
+<div style="text-align:center"><div id="mu" style="font-size:26px;font-weight:bold">0.000000 TON</div><div id="st" style="color:#00f0ff;font-size:12px;font-weight:bold">ОЖИДАНИЕ СЕРВЕРА</div></div>
+</div>
+
+<div id="s5" style="display:none">
+<div style="display:flex;gap:8px;margin-bottom:10px"><button class="btn p" onclick="lf.style.display='block';ls.style.display='none'">Фермы</button><button class="btn s" onclick="lf.style.display='none';ls.style.display='block'">Скины</button></div>
+<div id="lf" class="card">
+<div class="row"><div><b>Плата</b><br><small>+0.20 TON/день (20%)</small></div><div><button class="bb" onclick="bf(15,0.2,'s',this)">15⭐</button><button class="bb tb" onclick="bf(1,0.2,'t',this)">1 TON</button></div></div>
+<div class="row"><div><b>Сервер</b><br><small>+1.00 TON/день (20%)</small></div><div><button class="bb" onclick="bf(150,1,'s',this)">150⭐</button><button class="bb tb" onclick="bf(5,1,'t',this)">5 TON</button></div></div>
+<div class="row"><div><b>Стойка</b><br><small>+3.00 TON/день (20%)</small></div><div><button class="bb" onclick="bf(400,3,'s',this)">400⭐</button><button class="bb tb" onclick="bf(15,3,'t',this)">15 TON</button></div></div>
+<div class="row"><div><b>Кластер</b><br><small>+10.00 TON/день (20%)</small></div><div><button class="bb" onclick="bf(1000,10,'s',this)">1000⭐</button><button class="bb tb" onclick="bf(50,10,'t',this)">50 TON</button></div></div>
+<div class="row"><div><b>GPU-Ферма</b><br><small>+30.00 TON/день (20%)</small></div><div><button class="bb" onclick="bf(2500,30,'s',this)">2500⭐</button><button class="bb tb" onclick="bf(150,30,'t',this)">150 TON</button></div></div>
+</div>
+<div id="ls" class="card" style="display:none">
+<div class="row"><div><b>Золото</b></div><div><button class="bb" onclick="bs(100,'#ffd700','#ff8c00','s',this)">100⭐</button><button class="bb tb" onclick="bs(2,'#ffd700','#ff8c00','t',this)">2 TON</button></div></div>
+<div class="row"><div><b>Токсик</b></div><div><button class="bb" onclick="bs(100,'#00ff66','#0088ff','s',this)">100⭐</button><button class="bb tb" onclick="bs(2,'#00ff66','#0088ff','t',this)">2 TON</button></div></div>
+<div class="row"><div><b>Рубин</b></div><div><button class="bb" onclick="bs(100,'#ff0000','#880000','s',this)">100⭐</button><button class="bb tb" onclick="bs(2,'#ff0000','#880000','t',this)">2 TON</button></div></div>
+</div>
+</div>
+
+<div id="s2" style="display:none"><div class="card"><div class="row"><span>Доход/день</span><b id="dy">0.00 TON</b></div><div class="row"><span>Доход/сек (1x)</span><b id="ic">0.000000 TON</b></div><div class="row"><span>Скорость симуляции</span><b id="spv">1x</b></div></div></div>
+<div id="s3" style="display:none"><div class="card">🎁 <b>+0.5 TON за друга</b></div><button class="btn p" onclick="msg('Ссылка скопирована!')">✈️ Пригласить</button><button class="btn g" onclick="b+=.5;up();msg('+0.5 TON за друга!')">Симулировать друга</button></div>
+<div id="s4" style="display:none"><div class="card"><div class="row"><span>🎁 Бонус +0.01 TON</span><button class="bb" onclick="b+=.01;up();this.disabled=1;msg('+0.01 TON!')">Забрать</button></div></div></div>
+</div>
+
+<nav>
+<button id="n1" class="on" onclick="go('s1')"><span style="font-size:20px">🌀</span>Майнинг</button>
+<button id="n2" onclick="go('s2')"><span style="font-size:20px">⚡</span>Серверы</button>
+<button id="n3" onclick="go('s3')"><span style="font-size:20px">👥</span>Друзья</button>
+<button id="n4" class="on" style="color:#7b839a" onclick="go('s4')"><span style="font-size:20px">🎯</span>Миссии</button>
+<button id="n5" onclick="go('s5')"><span style="font-size:20px">🛒</span>Магазин</button>
+</nav>
+
+<script>
+var b=0,st=200,day=0,inc=0,mult=1,on=0;
+function up(){wu.textContent=mu.textContent=b.toFixed(6)+' TON';su.textContent=st+' ⭐'}
+function msg(x){t.textContent=x;t.style.display='block';setTimeout(()=>t.style.display='none',1800)}
+function go(id){['s1','s2','s3','s4','s5'].forEach((x,i)=>{document.getElementById(x).style.display=x==id?'block':'none';var nb=document.getElementById('n'+(i+1));nb.className=x==id?'on':'';nb.style.color=x==id?'#00f0ff':'#7b839a'})}
+function spd(m,el){mult=m;spv.textContent=m+'x';['x1','x100','x10000'].forEach(i=>document.getElementById(i).classList.remove('act'));el.classList.add('act');msg('Скорость: '+m+'x')}
+function bf(p,d,c,el){if(c=='s'){if(st<p)return msg('Мало ⭐');st-=p}else{if(b<p)return msg('Мало TON');b-=p}up();el.textContent='✓';el.disabled=1;day+=d;inc=day/86400;document.getElementById('st').textContent='МАЙНИНГ АКТИВЕН (20%/ДЕНЬ)';document.getElementById('st').style.color='#00ff66';dy.textContent=day.toFixed(2)+' TON';ic.textContent=inc.toFixed(6)+' TON';fan.style.animationPlayState='running';if(!on){on=1;setInterval(()=>{b+=inc*mult;up()},1000)}go('s1');msg('Ферма запущена!')}
+function bs(p,c1,c2,c,el){if(c=='s'){if(st<p)return msg('Мало ⭐');st-=p}else{if(b<p)return msg('Мало TON');b-=p}up();el.textContent='✓';fan.style.background=`repeating-conic-gradient(${c1} 0 30deg,${c2} 30deg 60deg)`;fc.style.borderColor=c1;go('s1');msg('Скин применён!')}
+function wd(){b>=25?(msg('Заявка на '+b.toFixed(2)+' TON отправлена!'),b=0,up()):msg('Минимум 25 TON')}
+</script>
+</body>
+                                                                                      </html>
+                                                                                      
